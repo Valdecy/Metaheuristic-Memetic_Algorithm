@@ -135,7 +135,7 @@ def mutation(offspring, mutation_rate = 0.1, eta = 1, min_values = [-5,-5], max_
     return offspring
 
 # MA Function
-def memetic_algorithm(population_size = 5, mutation_rate = 0.1, elite = 0, min_values = [-5,-5], max_values = [5,5], eta = 1, mu = 1, generations = 50):    
+def memetic_algorithm(population_size = 5, mutation_rate = 0.1, elite = 0, min_values = [-5,-5], max_values = [5,5], eta = 1, mu = 1, std = 0.1, generations = 50):    
     count = 0
     population = initial_population(population_size = population_size, min_values = min_values, max_values = max_values)
     fitness = fitness_function(population)    
@@ -143,12 +143,14 @@ def memetic_algorithm(population_size = 5, mutation_rate = 0.1, elite = 0, min_v
     
     while (count <= generations):
         
-        print("Generation = ", count, " f(x) = ", elite_ind [-1])
+        print("Generation = ", count, " f(x) = ", elite_ind [-1], " average std = ", sum(population.iloc[:,0:population.shape[1]-1].std())/len(min_values))
         
         offspring = breeding(population, fitness, min_values = min_values, max_values = max_values, mu = mu, elite = elite) 
         offspring = xhc(offspring, fitness, min_values = min_values, max_values = max_values, mu = mu)
         population = mutation(offspring, mutation_rate = mutation_rate, eta = eta, min_values = min_values, max_values = max_values)
-        
+        if (sum(population.iloc[:,0:population.shape[1]-1].std())/len(min_values) < std):
+            print("Reinitializing Population")
+            population = initial_population(population_size = population_size, min_values = min_values, max_values = max_values)
         fitness = fitness_function(population)
         if(elite_ind [-1] > population.iloc[population['Fitness'].idxmin(),:][-1]):
             elite_ind  = population.iloc[population['Fitness'].idxmin(),:].copy(deep = True) 
@@ -168,4 +170,4 @@ def target_function(variables_values = [0,0]):
         func_value = func_value + (100 * math.pow((variables_values[i] - math.pow(last_x, 2)), 2)) + math.pow(1 - last_x, 2)
     return func_value
 
-ma = memetic_algorithm(population_size = 100, mutation_rate = 0.1, elite = 1, eta = 1,  mu = 1, min_values = [-5,-5,-5,-5], max_values = [5,5,5,5], generations = 400)
+ma = memetic_algorithm(population_size = 50, mutation_rate = 0.1, elite = 1, eta = 1,  mu = 1, min_values = [-5,-5,-5,-5], max_values = [5,5,5,5], std = 0.1, generations = 400)
