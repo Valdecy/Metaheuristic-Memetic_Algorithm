@@ -155,13 +155,6 @@ def memetic_algorithm(population_size = 5, mutation_rate = 0.1, elite = 0, min_v
 
 ######################## Part 1 - Usage ####################################
 
-# Function to be Minimized (Six Hump Camel Back). Solution ->  f(x1, x2) = -1.0316; x1 = 0.0898, x2 = -0.7126 or x1 = -0.0898, x2 = 0.7126
-def target_function (variables_values = [0, 0]):
-    func_value = 4*variables_values[0]**2 - 2.1*variables_values[0]**4 + (1/3)*variables_values[0]**6 + variables_values[0]*variables_values[1] - 4*variables_values[1]**2 + 4*variables_values[1]**4
-    return func_value
-
-ma = memetic_algorithm(population_size = 100, mutation_rate = 0.05, elite = 1, eta = 1, mu = 1, min_values = [-5,-5], max_values = [5,5], generations = 25)
-
 # Function to be Minimized (Rosenbrocks Valley). Solution ->  f(x) = 0; xi = 1
 def target_function(variables_values = [0,0]):
     func_value = 0
