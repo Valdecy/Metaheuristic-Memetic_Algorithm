@@ -146,8 +146,8 @@ def memetic_algorithm(population_size = 5, mutation_rate = 0.1, elite = 0, min_v
         print("Generation = ", count, " f(x) = ", elite_ind [-1], " average std = ", sum(population.iloc[:,0:population.shape[1]-1].std())/len(min_values))
         
         offspring = breeding(population, fitness, min_values = min_values, max_values = max_values, mu = mu, elite = elite) 
-        offspring = xhc(offspring, fitness, min_values = min_values, max_values = max_values, mu = mu)
         population = mutation(offspring, mutation_rate = mutation_rate, eta = eta, min_values = min_values, max_values = max_values)
+        population = xhc(population, fitness, min_values = min_values, max_values = max_values, mu = mu)
         if (sum(population.iloc[:,0:population.shape[1]-1].std())/len(min_values) < std):
             print("Reinitializing Population")
             population = initial_population(population_size = population_size, min_values = min_values, max_values = max_values)
