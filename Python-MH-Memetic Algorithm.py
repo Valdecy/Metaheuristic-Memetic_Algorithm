@@ -82,7 +82,7 @@ def breeding(population, fitness, min_values = [-5,-5], max_values = [5,5], mu =
 
 #Function: Crossover Hill Clibing
 def xhc(offspring, fitness, min_values = [-5,-5], max_values = [5,5], mu = 1):
-    offspring_xhc = pd.DataFrame(np.zeros((1, len(min_values))))
+    offspring_xhc = pd.DataFrame(np.zeros((2, len(min_values))))
     offspring_xhc['Fitness'] = 0.0
     b_offspring = 0
     for _ in range (0, offspring.shape[0]):
@@ -99,15 +99,20 @@ def xhc(offspring, fitness, min_values = [-5,-5], max_values = [5,5], mu = 1):
                 b_offspring = 1/(2*(1 - rand_b))
                 b_offspring = b_offspring**(1/(mu + 1))       
             offspring_xhc.iloc[0,j] = np.clip(((1 + b_offspring)*offspring.iloc[parent_1, j] + (1 - b_offspring)*offspring.iloc[parent_2, j])/2, min_values[j], max_values[j])           
-        offspring_xhc.iloc[0,-1] = target_function(offspring_xhc.iloc[0,0:offspring_xhc.shape[1]-1]) 
+            offspring_xhc.iloc[1,j] = np.clip(((1 - b_offspring)*offspring.iloc[parent_1, j] + (1 + b_offspring)*offspring.iloc[parent_2, j])/2, min_values[j], max_values[j])           
+        offspring_xhc.iloc[0,-1] = target_function(offspring_xhc.iloc[0,0:offspring_xhc.shape[1]-1])
+        offspring_xhc.iloc[1,-1] = target_function(offspring_xhc.iloc[1,0:offspring_xhc.shape[1]-1]) 
+        if (offspring_xhc.iloc[1,-1] < offspring_xhc.iloc[0,-1]):
+            for k in range(0, offspring.shape[1]): 
+                offspring_xhc.iloc[0, k] = offspring_xhc.iloc[1,k]            
         if (offspring.iloc[parent_1, -1] < offspring.iloc[parent_2, -1]):
             if (offspring_xhc.iloc[0,-1] < offspring.iloc[parent_1, -1]):
                 for k in range(0, offspring.shape[1]): 
-                    offspring.iloc[parent_1, k] = offspring_xhc.iloc[0,j]
+                    offspring.iloc[parent_1, k] = offspring_xhc.iloc[0,k]
         elif(offspring.iloc[parent_2, -1] < offspring.iloc[parent_1, -1]):
             if (offspring_xhc.iloc[0,-1] < offspring.iloc[parent_2, -1]):
                 for k in range(0, offspring.shape[1]): 
-                    offspring.iloc[parent_2, k] = offspring_xhc.iloc[0,j]
+                    offspring.iloc[parent_2, k] = offspring_xhc.iloc[0,k]
     return offspring
 
 # Function: Mutation
