@@ -168,4 +168,4 @@ def target_function(variables_values = [0,0]):
         func_value = func_value + (100 * math.pow((variables_values[i] - math.pow(last_x, 2)), 2)) + math.pow(1 - last_x, 2)
     return func_value
 
-ma = memetic_algorithm(population_size = 100, mutation_rate = 0.05, elite = 1, eta = 1,  mu = 1, min_values = [-5,-5,-5,-5], max_values = [5,5,5,5], generations = 400)
+ma = memetic_algorithm(population_size = 100, mutation_rate = 0.1, elite = 1, eta = 1,  mu = 1, min_values = [-5,-5,-5,-5], max_values = [5,5,5,5], generations = 400)
