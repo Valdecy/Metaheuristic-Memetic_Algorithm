@@ -80,7 +80,7 @@ def breeding(population, fitness, min_values = [-5,-5], max_values = [5,5], mu =
         offspring.iloc[i,-1] = target_function(offspring.iloc[i,0:offspring.shape[1]-1]) 
     return offspring
 
-#Function: Crossover Hill Clibing
+# Function: Crossover Hill Clibing
 def xhc(offspring, fitness, min_values = [-5,-5], max_values = [5,5], mu = 1):
     offspring_xhc = pd.DataFrame(np.zeros((2, len(min_values))))
     offspring_xhc['Fitness'] = 0.0
