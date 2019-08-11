@@ -16,7 +16,7 @@ Memetic Algorithm with Lamarckian Learning (xhc - Crossover Hill Climbing) to Mi
 
 * generations = The total number of iterations. The Default Value is 50.
 
-* std = If the population standard deviation is less than the std, then th population is reinitialized. The Default Value is 0.1.
+* std = If the population standard deviation is below the std, then the population is reinitialized. The Default Value is 0.1.
 
 * mu = Value of the breed operator. The Default Value is 1.
 
